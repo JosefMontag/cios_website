@@ -1,29 +1,69 @@
 import React, { useState } from 'react';
 import { Mail, MapPin, ExternalLink, BookOpen, Users, FileText, ChevronDown, FileDown, Library, Globe, Heart } from 'lucide-react';
 
-import siteData from './data.json'; // UNCOMMENT THIS TO LOAD EXTERNAL JSON
+import siteData from './data.json'; // UNCOMMENT THIS FOR LOCAL/GITHUB BUILDS
 
 // ==========================================
-// 1. DATA CONFIGURATION (MOCK JSON IMPORT)
+// 1. DATA CONFIGURATION (MOCK JSON FOR PREVIEW)
 // ==========================================
-// This object mimics the exact structure of the data.json file that 
-// your future Python script will generate from the Excel spreadsheets.
+// const siteData = {
+//   team: [
+//     { name: 'Josef Montag', surname: 'Montag', role: 'Principal Investigator', email: 'montagj@prf.cuni.cz', affiliation: 'Faculty of Law, Charles University', groups: ['management', 'research', 'admin'], bio: 'Specializes in empirical legal studies and the economics of crime.', website: 'https://josefmontag.github.io' },
+//     { name: 'Michal Šoltés', surname: 'Šoltés', role: 'Work Package Leader', email: 'michal.soltes@prf.cuni.cz', affiliation: 'Faculty of Law, Charles University', groups: ['research'], bio: 'Focuses on empirical criminal law and judicial decision-making.', website: 'https://michalsoltes.com' },
+//     { name: 'Volker Kaul', surname: 'Kaul', role: 'Work Package Leader', email: 'volker.kaul@fsv.cuni.cz', affiliation: 'Faculty of Social Sciences', groups: ['research'], bio: 'Researches political philosophy and the digital public sphere.', website: '' },
+//     { name: 'Anna Malá', surname: 'Malá', role: 'Project Manager', email: 'mala@prf.cuni.cz', affiliation: 'Faculty of Law, Charles University', groups: ['management', 'admin'], bio: 'Strategic project management and institutional coordination.', website: '' },
+//     { name: 'Eva Myšáková', surname: 'Myšáková', role: 'Financial Manager', email: 'mysakova@prf.cuni.cz', affiliation: 'Faculty of Law, Charles University', groups: ['management', 'admin'], bio: 'Financial oversight, budgeting, and reporting.', website: '' },
+//     { name: 'Kateřina Pospíchalová Pavlov', surname: 'Pospíchalová Pavlov', role: 'Administrator', email: 'pavlov@prf.cuni.cz', affiliation: 'Faculty of Law, Charles University', groups: ['management', 'admin'], bio: 'Coordinates administrative support.', website: '' },
+//     { name: 'Karolína Martínek', surname: 'Martínek', role: 'Data Steward & Open Access Officer', email: 'martinek@prf.cuni.cz', affiliation: 'Faculty of Law, Charles University', groups: ['management', 'admin'], bio: 'Responsible for data management planning and ensuring open access to research outputs.', website: '' },
+//     { name: 'Alice Dvořáková', surname: 'Dvořáková', role: 'Senior Researcher', email: 'alice.dvorakova@vse.cz', affiliation: 'Prague University of Economics and Business', groups: ['research'], bio: 'Research interests include financial systems and wealth distribution.', website: '' },
+//     { name: 'Petr Novák', surname: 'Novák', role: 'Junior Researcher', email: 'petr.novak@law.muni.cz', affiliation: 'Faculty of Law, Masaryk University', groups: ['research'], bio: 'Focuses on consumer protection law in digital marketplaces.', website: '' },
+//     { name: 'Sarah Jenkins', surname: 'Jenkins', role: 'Postdoctoral Researcher', email: 'jenkins.s@prf.cuni.cz', affiliation: 'Faculty of Law, Charles University', groups: ['research'], bio: 'Applies NLP to historical court records to identify systemic linguistic bias.', website: '' },
+//     { name: 'Tomáš Kučera', surname: 'Kučera', role: 'PhD Candidate', email: 'kucera.t@fsv.cuni.cz', affiliation: 'Faculty of Social Sciences', groups: ['research'], bio: 'Investigating algorithmic bias in social media feeds.', website: '' },
+//     { name: 'Anna Louisa Bindler', surname: 'Bindler', role: 'Professor of Economics', email: 'anna.bindler@gu.se', affiliation: 'University of Gothenburg', groups: ['isab'], bio: 'Leading expertise in empirical legal studies and the economics of crime.', website: 'https://www.gu.se/en/about/find-staff/annabindler' },
+//     { name: 'Susann Fiedler', surname: 'Fiedler', role: 'Professor of Business Psychology', email: 'susann.fiedler@wu.ac.at', affiliation: 'Vienna University of Economics', groups: ['isab'], bio: 'Prominent researcher in behavioral economics and psychology.', website: 'https://www.wu.ac.at/en/psyeco/team/susann-fiedler/' },
+//     { name: 'Barbara Havelková', surname: 'Havelková', role: 'Associate Professor of Law', email: 'barbara.havelkova@law.ox.ac.uk', affiliation: 'University of Oxford', groups: ['isab'], bio: 'Specialist in gender legal studies and equality law.', website: 'https://www.law.ox.ac.uk/people/barbara-havelkova' },
+//     { name: 'Elena Kantorowicz-Reznichenko', surname: 'Kantorowicz-Reznichenko', role: 'Professor of Quantitative Empirical Legal Studies', email: 'kantorowicz@law.eur.nl', affiliation: 'Erasmus University Rotterdam', groups: ['isab'], bio: 'Expert in economic analysis of law and criminal justice systems.', website: 'https://www.eur.nl/en/people/elena-kantorowicz-reznichenko' },
+//     { name: 'Keren Weinshall', surname: 'Weinshall', role: 'Professor of Law', email: 'keren.weinshall@mail.huji.ac.il', affiliation: 'Hebrew University of Jerusalem', groups: ['isab'], bio: 'Empirical researcher focusing on judicial decision-making.', website: 'https://en.law.huji.ac.il/people/keren-weinshall' }
+//   ],
+//   publications: [
+//     { 
+//       id: 'pub-algorithmic-support', 
+//       title: 'The Impact of Algorithmic Support on Judicial Decision Making', 
+//       authors: 'Montag, J., Šoltés, M.', 
+//       type: 'working-paper', 
+//       year: '2025', 
+//       abstract: 'This paper evaluates the rollout of the PRECID algorithmic support system among Czech judges. Using a difference-in-differences approach, we find that access to predictive sentencing guidelines reduces unwarranted disparities in sentencing outcomes by 14% without altering the overall severity of punishments.', 
+//       pdf: '#', 
+//       repo: 'https://ssrn.com' 
+//     },
+//     { 
+//       id: 'pub-sentencing-disparities', 
+//       title: 'Understanding Sentencing Disparities in the Digital Age', 
+//       authors: 'Šoltés, M., et al.', 
+//       type: 'journal-article', 
+//       year: '2025', 
+//       journal: 'Journal of Empirical Legal Studies', 
+//       abstract: 'In this study, we analyze the impact of digital transformation on judicial sentencing consistency.',
+//       pdf: '#',
+//       link: 'https://onlinelibrary.wiley.com'
+//     }
+//   ]
+// };
 
 const workPackages = [
-  { id: 'WP1', title: 'Digital Public Sphere', leader: 'Volker Kaul', description: 'Examining how social media influence public discourse and contribute to societal polarization. We analyze the mechanisms of echo chambers and the impact of algorithmic curation on democratic stability.' },
-  { id: 'WP2', title: 'Inequality in Justice', leader: 'Michal Šoltés', description: 'Analyzing the causes and consequences of inequalities in court rulings using unique data from Czech and Dutch judges. This package focuses on empirical evidence of systematic disparities in sentencing.' },
-  { id: 'WP3', title: 'Information Support for Criminal Justice (PRECID)', leader: 'Josef Montag', description: 'Developing PRECID software to provide judges with data-driven and algorithmic support for decision-making. The goal is to reduce unwarranted sentencing disparities through evidence-based tools.' },
-  { id: 'WP4', title: 'Finance, Innovation, and Inequality', leader: 'TBA', description: 'Investigating the macroeconomic links between financial systems, technological innovation, and wealth distribution. We explore how financialization impacts long-term societal equity.' },
-  { id: 'WP5', title: 'Legal Aspects of Vulnerability', leader: 'TBA', description: 'Exploring how legal frameworks address and sometimes exacerbate societal vulnerabilities. This research maps the intersection of legal protection and socio-economic fragility.' },
-  { id: 'WP6', title: 'The Digitally Vulnerable Consumer', leader: 'TBA', description: 'Researching consumer protection and behavioral impacts in digital markets and online platforms. We study how dark patterns and asymmetric information affect consumer choice.' }
+  { id: 'WP1', title: 'Digital Public Sphere', leader: 'Volker Kaul', description: 'Examining how social media influence public discourse and contribute to societal polarization.' },
+  { id: 'WP2', title: 'Inequality in Justice', leader: 'Michal Šoltés', description: 'Analyzing the causes and consequences of inequalities in court rulings using unique data from Czech and Dutch judges.' },
+  { id: 'WP3', title: 'Information Support for Criminal Justice (PRECID)', leader: 'Josef Montag', description: 'Developing PRECID software to provide judges with data-driven and algorithmic support for decision-making.' },
+  { id: 'WP4', title: 'Finance, Innovation, and Inequality', leader: 'TBA', description: 'Investigating the macroeconomic links between financial systems, technological innovation, and wealth distribution.' },
+  { id: 'WP5', title: 'Legal Aspects of Vulnerability', leader: 'TBA', description: 'Exploring how legal frameworks address and sometimes exacerbate societal vulnerabilities.' },
+  { id: 'WP6', title: 'The Digitally Vulnerable Consumer', leader: 'TBA', description: 'Researching consumer protection and behavioral impacts in digital markets and online platforms.' }
 ];
 
 const futureGeneration = [
-  { name: 'Placeholder Baby 1', parent: 'Josef Montag', year: '2024', photo: '' },
-  { name: 'Placeholder Baby 2', parent: 'Michal Šoltés', year: '2025', photo: '' }
+  { name: 'Placeholder Baby 1', parent: 'Josef Montag', year: '2024' },
+  { name: 'Placeholder Baby 2', parent: 'Michal Šoltés', year: '2025' }
 ];
 
-// Load team and publications dynamically from the mock data
 const teamMembers = siteData.team || [];
 const publicationsData = siteData.publications || [];
 
@@ -60,7 +100,6 @@ export default function App() {
 
   const PersonVignette = ({ member }) => {
     const isAdminOnly = member.groups.includes('admin') && !member.groups.includes('research') && !member.groups.includes('isab');
-    
     return (
       <div className="flex flex-col sm:flex-row gap-8 items-start mb-10 last:mb-0">
         <div className="w-32 h-32 shrink-0 bg-slate-100 flex items-center justify-center overflow-hidden rounded-lg">
@@ -103,12 +142,10 @@ export default function App() {
         </div>
         <h3 className="text-xl font-bold mb-2 leading-snug" style={{ color: colors.navy }}>{pub.title}</h3>
         <p className="text-base font-medium mb-3" style={{ color: colors.midBlueText }}>{pub.authors}</p>
-        
         {pub.abstract && (
           <div className="mb-4">
             <button 
               onClick={() => setIsOpen(!isOpen)} 
-              onMouseEnter={() => setIsOpen(true)}
               className="text-xs font-black uppercase tracking-widest flex items-center transition hover:opacity-70" 
               style={{ color: colors.red }}
             >
@@ -117,14 +154,9 @@ export default function App() {
             {isOpen && <p className="mt-3 p-4 bg-slate-50 rounded text-sm italic leading-relaxed" style={{ color: colors.midBlueText }}>{pub.abstract}</p>}
           </div>
         )}
-        
         <div className="flex gap-6 text-sm font-bold">
-          {pub.pdf && pub.pdf !== '#' && (
-            <a href={pub.pdf} className="flex items-center hover:underline" style={{ color: colors.navy }}>
-              <FileDown className="w-4 h-4 mr-2" /> PDF
-            </a>
-          )}
-          {(pub.repo || pub.link) && (pub.repo !== '#' || pub.link !== '#') && (
+          {pub.pdf && pub.pdf !== '#' && <a href={pub.pdf} className="flex items-center hover:underline" style={{ color: colors.navy }}><FileDown className="w-4 h-4 mr-2" /> PDF</a>}
+          {(pub.repo || pub.link) && (
             <a href={pub.repo || pub.link} target="_blank" rel="noreferrer" className="flex items-center hover:underline" style={{ color: colors.navy }}>
               <Library className="w-4 h-4 mr-2" /> {pub.type === 'working-paper' ? 'Repository' : 'Journal Link'}
             </a>
@@ -139,10 +171,8 @@ export default function App() {
       case 'home':
         const featuredPub = publicationsData[0] || {};
         const recentUpdates = publicationsData.slice(1, 4);
-
         return (
           <div className="animate-in fade-in duration-500 py-12 px-6 sm:px-12 bg-white">
-            {/* 1. Hero Title */}
             <div className="max-w-5xl mx-auto text-center mb-16 mt-8">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black mb-6 leading-tight tracking-tight px-4" style={{ color: colors.navy }}>
                 Center for Inequality and <br className="hidden sm:block" /> Open Society
@@ -151,35 +181,26 @@ export default function App() {
                 An interdisciplinary initiative applying empirical, experimental, and theoretical research across philosophy, law, economics, political science, and psychology to address critical challenges in modern open societies.
               </p>
             </div>
-            
-            {/* 2. Featured Impact Card */}
             {featuredPub.title && (
               <div className="max-w-6xl mx-auto mb-20">
                 <h2 className="text-sm font-black uppercase tracking-[0.2em] mb-6 text-center" style={{ color: colors.red }}>Featured Research</h2>
                 <div className="bg-slate-50 border rounded-2xl p-8 sm:p-12 relative overflow-hidden" style={{ borderColor: colors.borderGray }}>
                   <div className="absolute top-0 right-0 w-64 h-64 bg-white rounded-full opacity-50 -translate-y-1/2 translate-x-1/3 blur-3xl pointer-events-none"></div>
-                  
-                  {/* Removed max-w-4xl constraint so text stretches naturally across the card */}
-                  <div className="relative z-10 w-full">
+                  <div className="relative z-10 w-full max-w-none">
                     <div className="flex items-center gap-3 mb-4">
                       <span className="text-[10px] font-black uppercase tracking-widest px-2 py-0.5 bg-white shadow-sm rounded" style={{ color: colors.red }}>
                         {(featuredPub.type || '').replace('-', ' ')}
                       </span>
                       <span className="text-sm font-bold" style={{ color: colors.navy }}>{featuredPub.year}</span>
                     </div>
-                    
-                    {/* Added text-balance to smooth out multi-line titles */}
                     <h3 
-                      className="text-3xl sm:text-4xl font-bold mb-4 leading-tight cursor-pointer hover:underline transition-colors" 
+                      className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 leading-tight cursor-pointer hover:underline transition-colors w-full" 
                       style={{ color: colors.navy }}
                       onClick={() => handleNavClick('publications', featuredPub.id)}
-                      title="Go to publication details"
                     >
                       {featuredPub.title}
                     </h3>
-                    
                     <p className="text-lg font-bold mb-6" style={{ color: colors.midBlueText }}>{featuredPub.authors}</p>
-                    
                     {featuredPub.abstract && (
                       <div className="mb-4">
                         <button 
@@ -200,8 +221,6 @@ export default function App() {
                 </div>
               </div>
             )}
-            
-            {/* 3. Latest Updates & Seminars */}
             <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-16 border-t pt-16" style={{ borderColor: colors.borderGray }}>
               <div className="md:col-span-2">
                 <h2 className="text-2xl font-bold mb-8 border-b-2 inline-block pb-2" style={{ color: colors.navy, borderColor: colors.red }}>Latest Updates</h2>
@@ -225,31 +244,25 @@ export default function App() {
             </div>
           </div>
         );
-
       case 'people':
         const alphabeticalTeam = teamMembers
           .filter(m => m.groups && (m.groups.includes('research') || m.groups.includes('admin')))
           .sort((a, b) => (a.surname || '').localeCompare((b.surname || ''), 'cs')); 
-
         return (
           <div className="py-12 px-6 sm:px-12 max-w-4xl mx-auto animate-in fade-in duration-500">
             <section id="researchers" className="mb-20 scroll-mt-32">
               <h2 className="text-3xl font-bold mb-10 border-b-2 inline-block pb-2" style={{ color: colors.navy, borderColor: colors.red }}>Our People</h2>
               <div>{alphabeticalTeam.map((member, idx) => <PersonVignette key={idx} member={member} />)}</div>
             </section>
-
             <section id="future-generation" className="scroll-mt-32 pt-10 border-t">
               <div className="flex items-center gap-3 mb-8">
                 <Heart className="w-6 h-6" style={{ color: colors.red }} />
                 <h2 className="text-3xl font-bold" style={{ color: colors.navy }}>Future Generation</h2>
               </div>
-              <p className="text-base font-medium mb-12 max-w-2xl" style={{ color: colors.midBlueText }}>
-                Celebrating new arrivals in our CIOS family.
-              </p>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8">
                 {futureGeneration.map((baby, idx) => (
                   <div key={idx} className="text-center group">
-                    <div className="aspect-square bg-slate-100 rounded-full mb-4 flex items-center justify-center overflow-hidden border-4 border-transparent group-hover:border-slate-200 transition-all">
+                    <div className="aspect-square bg-slate-100 rounded-full mb-4 flex items-center justify-center border-4 border-transparent group-hover:border-slate-200 transition-all">
                       <Heart className="w-8 h-8 opacity-10" />
                     </div>
                     <h4 className="font-bold text-sm" style={{ color: colors.navy }}>{baby.name}</h4>
@@ -261,50 +274,40 @@ export default function App() {
             </section>
           </div>
         );
-
       case 'publications':
         const wps = publicationsData.filter(p => p.type === 'working-paper');
         const articles = publicationsData.filter(p => p.type === 'journal-article');
         const chapters = publicationsData.filter(p => p.type === 'book-chapter');
-
         return (
           <div className="py-12 px-6 sm:px-12 max-w-4xl mx-auto animate-in fade-in duration-500">
             <section id="pub-working-papers" className="mb-16 scroll-mt-32">
               <h2 className="text-3xl font-bold mb-8 border-b-2 inline-block pb-2" style={{ color: colors.navy, borderColor: colors.red }}>Working Papers</h2>
               <div className="space-y-10">{wps.map((pub, idx) => <PublicationItem key={idx} pub={pub} />)}</div>
             </section>
-            
             <section id="pub-articles" className="pt-10 mt-10 mb-16 scroll-mt-32 border-t" style={{ borderColor: colors.borderGray }}>
               <h2 className="text-3xl font-bold mb-8 border-b-2 inline-block pb-2" style={{ color: colors.navy, borderColor: colors.red }}>Journal Articles</h2>
               <div className="space-y-10">{articles.map((pub, idx) => <PublicationItem key={idx} pub={pub} />)}</div>
             </section>
-
             <section id="pub-chapters" className="pt-10 mt-10 scroll-mt-32 border-t" style={{ borderColor: colors.borderGray }}>
               <h2 className="text-3xl font-bold mb-8 border-b-2 inline-block pb-2" style={{ color: colors.navy, borderColor: colors.red }}>Book Chapters</h2>
               <div className="space-y-10">{chapters.map((pub, idx) => <PublicationItem key={idx} pub={pub} />)}</div>
             </section>
           </div>
         );
-
       case 'about':
         return (
           <div className="py-12 px-6 sm:px-12 max-w-4xl mx-auto animate-in fade-in duration-500">
-            <div id="about-overview">
-              <h2 className="text-3xl font-bold mb-8 border-b-2 inline-block pb-2" style={{ color: colors.navy, borderColor: colors.red }}>About the Project</h2>
-              <p className="text-lg leading-relaxed font-medium mb-6" style={{ color: colors.midBlueText }}>
-                The <strong>Center for Inequality and Open Society (CIOS)</strong> is a major interdisciplinary research initiative bringing together experts from philosophy, law, economics, political science, and psychology. Supported by a nearly 150 million CZK grant, our goal is to conduct cutting-edge research on the critical challenges and disparities faced by modern open societies in the digital age.
-              </p>
-              <p className="text-lg leading-relaxed font-medium mb-6" style={{ color: colors.midBlueText }}>
-                While our research produces rigorous theoretical frameworks, it is heavily rooted in <strong>empirical and experimental methodologies</strong>. Across our six work packages, our teams leverage advanced quantitative methods, machine learning, correspondence studies, and field experiments to analyze critical issues—from algorithmic bias in courtrooms to political polarization on social media.
-              </p>
-              <p className="text-lg leading-relaxed font-medium mb-6" style={{ color: colors.midBlueText }}>
-                Uniting a team of 70 researchers across 4 institutions, the project is designed to boost internationalization through targeted mobilities and active collaboration with leading global institutions. Furthermore, CIOS is strictly committed to <strong>Open Science</strong> principles, including the pre-registration of research designs, open-access publishing, and the promotion of citizen science.
-              </p>
-              <p className="text-lg leading-relaxed font-medium mb-12" style={{ color: colors.midBlueText }}>
-                The project is coordinated by the <strong>Faculty of Law, Charles University</strong>, in partnership with the <strong>Faculty of Social Sciences, Charles University</strong>, the <strong>Faculty of Law, Masaryk University</strong>, and the <strong>Prague University of Economics and Business</strong>.
-              </p>
-            </div>
-            <div id="about-wp" className="pt-10 mt-10 scroll-mt-32">
+            <h2 className="text-3xl font-bold mb-8 border-b-2 inline-block pb-2" style={{ color: colors.navy, borderColor: colors.red }}>About the Project</h2>
+            <p className="text-lg leading-relaxed font-medium mb-6" style={{ color: colors.midBlueText }}>
+              The <strong>Center for Inequality and Open Society (CIOS)</strong> is a major interdisciplinary research initiative bringing together experts from philosophy, law, economics, political science, and psychology. Supported by a nearly 150 million CZK grant, our goal is to conduct cutting-edge research on the critical challenges and disparities faced by modern open societies in the digital age.
+            </p>
+            <p className="text-lg leading-relaxed font-medium mb-6" style={{ color: colors.midBlueText }}>
+              While our research produces rigorous theoretical frameworks, it is heavily rooted in <strong>empirical and experimental methodologies</strong>. Across our six work packages, our teams leverage advanced quantitative methods, machine learning, and field experiments to analyze critical issues.
+            </p>
+            <p className="text-lg leading-relaxed font-medium mb-12" style={{ color: colors.midBlueText }}>
+              The project is coordinated by the <strong>Faculty of Law, Charles University</strong>, in partnership with the <strong>Faculty of Social Sciences, Charles University</strong>, the <strong>Faculty of Law, Masaryk University</strong>, and the <strong>Prague University of Economics and Business</strong>.
+            </p>
+            <div id="about-wp" className="pt-10 mt-10 scroll-mt-32 border-t" style={{ borderColor: colors.borderGray }}>
               <h2 className="text-3xl font-bold mb-10 border-b-2 inline-block pb-2" style={{ color: colors.navy, borderColor: colors.red }}>Work Packages</h2>
               <div className="space-y-12">
                 {workPackages.map((wp, idx) => (
@@ -319,19 +322,19 @@ export default function App() {
                 ))}
               </div>
             </div>
-            <div id="about-management" className="pt-10 mt-10 scroll-mt-32">
-               <h2 className="text-3xl font-bold mb-10 border-b-2 inline-block pb-2" style={{ color: colors.navy, borderColor: colors.red }}>Management and Administration</h2>
-               <div className="grid sm:grid-cols-2 gap-x-12 gap-y-12">
-                  {teamMembers.filter(m => m.groups && m.groups.includes('management')).map((m, idx) => (
-                    <div key={idx}>
-                      <h4 className="font-bold text-lg" style={{ color: colors.navy }}>{m.name}</h4>
-                      <p className="text-[10px] font-black uppercase tracking-widest mb-2" style={{ color: colors.red }}>{m.role}</p>
-                      <a href={`mailto:${m.email}`} className="text-sm font-medium hover:underline block" style={{ color: colors.midBlueText }}>{m.email}</a>
-                    </div>
-                  ))}
-               </div>
+            <div id="about-management" className="pt-10 mt-10 scroll-mt-32 border-t" style={{ borderColor: colors.borderGray }}>
+              <h2 className="text-3xl font-bold mb-10 border-b-2 inline-block pb-2" style={{ color: colors.navy, borderColor: colors.red }}>Management and Administration</h2>
+              <div className="grid sm:grid-cols-2 gap-x-12 gap-y-12">
+                {teamMembers.filter(m => m.groups && m.groups.includes('management')).map((m, idx) => (
+                  <div key={idx}>
+                    <h4 className="font-bold text-lg" style={{ color: colors.navy }}>{m.name}</h4>
+                    <p className="text-[10px] font-black uppercase tracking-widest mb-2" style={{ color: colors.red }}>{m.role}</p>
+                    <a href={`mailto:${m.email}`} className="text-sm font-medium hover:underline block" style={{ color: colors.midBlueText }}>{m.email}</a>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div id="about-isab" className="pt-10 mt-10 scroll-mt-32">
+            <div id="about-isab" className="pt-10 mt-10 scroll-mt-32 border-t" style={{ borderColor: colors.borderGray }}>
               <h2 className="text-3xl font-bold mb-10 border-b-2 inline-block pb-2" style={{ color: colors.navy, borderColor: colors.red }}>International Scientific Advisory Board</h2>
               <div className="space-y-12">
                 {teamMembers.filter(m => m.groups && m.groups.includes('isab')).map((member, idx) => (
@@ -348,7 +351,6 @@ export default function App() {
   return (
     <div className="min-h-screen flex flex-col font-montserrat bg-white" style={{ color: colors.navy }}>
       <style>{`@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap');`}</style>
-      
       <nav className="sticky top-0 z-50 bg-white shadow-sm h-32">
         <div className="max-w-6xl mx-auto px-6 sm:px-12 flex justify-between items-center h-full">
           <div className="cursor-pointer flex items-center h-full" onClick={() => handleNavClick('home')}>
@@ -367,7 +369,6 @@ export default function App() {
                 >
                   {tab}
                 </button>
-                
                 {(tab === 'people' || tab === 'publications' || tab === 'about') && activeTab === tab && (
                   <div className="absolute top-[70%] right-5 flex gap-6 w-max pt-0">
                     {tab === 'people' && (
@@ -398,9 +399,7 @@ export default function App() {
           </div>
         </div>
       </nav>
-
       <main className="flex-grow">{renderContent()}</main>
-
       <footer className="pt-16 pb-12 bg-white border-t" style={{ borderColor: colors.borderGray }}>
         <div className="max-w-6xl mx-auto px-6 sm:px-12 text-center sm:text-left">
           <div className="mb-12">
@@ -419,17 +418,9 @@ export default function App() {
               ))}
             </div>
           </div>
-          
           <div className="pt-12 border-t flex flex-col items-center" style={{ borderColor: colors.borderGray }}>
-            <img 
-              src="/CIOS_Logos_partners.png" 
-              className="max-h-20 w-auto mb-10" 
-              alt="CIOS Partners" 
-              onError={e => e.target.style.display='none'}
-            />
-            <p className="text-[11px] font-medium text-center max-w-3xl leading-relaxed" style={{ color: '#4A6582' }}>
-              Co-funded by the European Regional Development Fund, project Center for Inequality and Open Society, no. CZ.02.01.01/00/23_025/0008690.
-            </p>
+            <img src="/CIOS_Logos_partners.png" className="max-h-20 w-auto mb-10" alt="CIOS Partners" onError={e => e.target.style.display='none'} />
+            <p className="text-[11px] font-medium text-center max-w-3xl leading-relaxed" style={{ color: '#4A6582' }}>Co-funded by the European Regional Development Fund, project Center for Inequality and Open Society, no. CZ.02.01.01/00/23_025/0008690.</p>
           </div>
         </div>
       </footer>
