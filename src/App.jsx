@@ -1,54 +1,11 @@
 import React, { useState } from 'react';
 import { Mail, MapPin, ExternalLink, BookOpen, Users, FileText, ChevronDown, FileDown, Library, Globe, Heart } from 'lucide-react';
 
-import siteData from './data.json'; // UNCOMMENT THIS FOR LOCAL/GITHUB BUILDS
+import siteData from './data.json'; // UNCOMMENT THIS FOR PRODUCTION BUILDS
 
 // ==========================================
 // 1. DATA CONFIGURATION (MOCK JSON FOR PREVIEW)
 // ==========================================
-// const siteData = {
-//   team: [
-//     { name: 'Josef Montag', surname: 'Montag', role: 'Principal Investigator', email: 'montagj@prf.cuni.cz', affiliation: 'Faculty of Law, Charles University', groups: ['management', 'research', 'admin'], bio: 'Specializes in empirical legal studies and the economics of crime.', website: 'https://josefmontag.github.io' },
-//     { name: 'Michal Šoltés', surname: 'Šoltés', role: 'Work Package Leader', email: 'michal.soltes@prf.cuni.cz', affiliation: 'Faculty of Law, Charles University', groups: ['research'], bio: 'Focuses on empirical criminal law and judicial decision-making.', website: 'https://michalsoltes.com' },
-//     { name: 'Volker Kaul', surname: 'Kaul', role: 'Work Package Leader', email: 'volker.kaul@fsv.cuni.cz', affiliation: 'Faculty of Social Sciences', groups: ['research'], bio: 'Researches political philosophy and the digital public sphere.', website: '' },
-//     { name: 'Anna Malá', surname: 'Malá', role: 'Project Manager', email: 'mala@prf.cuni.cz', affiliation: 'Faculty of Law, Charles University', groups: ['management', 'admin'], bio: 'Strategic project management and institutional coordination.', website: '' },
-//     { name: 'Eva Myšáková', surname: 'Myšáková', role: 'Financial Manager', email: 'mysakova@prf.cuni.cz', affiliation: 'Faculty of Law, Charles University', groups: ['management', 'admin'], bio: 'Financial oversight, budgeting, and reporting.', website: '' },
-//     { name: 'Kateřina Pospíchalová Pavlov', surname: 'Pospíchalová Pavlov', role: 'Administrator', email: 'pavlov@prf.cuni.cz', affiliation: 'Faculty of Law, Charles University', groups: ['management', 'admin'], bio: 'Coordinates administrative support.', website: '' },
-//     { name: 'Karolína Martínek', surname: 'Martínek', role: 'Data Steward & Open Access Officer', email: 'martinek@prf.cuni.cz', affiliation: 'Faculty of Law, Charles University', groups: ['management', 'admin'], bio: 'Responsible for data management planning and ensuring open access to research outputs.', website: '' },
-//     { name: 'Alice Dvořáková', surname: 'Dvořáková', role: 'Senior Researcher', email: 'alice.dvorakova@vse.cz', affiliation: 'Prague University of Economics and Business', groups: ['research'], bio: 'Research interests include financial systems and wealth distribution.', website: '' },
-//     { name: 'Petr Novák', surname: 'Novák', role: 'Junior Researcher', email: 'petr.novak@law.muni.cz', affiliation: 'Faculty of Law, Masaryk University', groups: ['research'], bio: 'Focuses on consumer protection law in digital marketplaces.', website: '' },
-//     { name: 'Sarah Jenkins', surname: 'Jenkins', role: 'Postdoctoral Researcher', email: 'jenkins.s@prf.cuni.cz', affiliation: 'Faculty of Law, Charles University', groups: ['research'], bio: 'Applies NLP to historical court records to identify systemic linguistic bias.', website: '' },
-//     { name: 'Tomáš Kučera', surname: 'Kučera', role: 'PhD Candidate', email: 'kucera.t@fsv.cuni.cz', affiliation: 'Faculty of Social Sciences', groups: ['research'], bio: 'Investigating algorithmic bias in social media feeds.', website: '' },
-//     { name: 'Anna Louisa Bindler', surname: 'Bindler', role: 'Professor of Economics', email: 'anna.bindler@gu.se', affiliation: 'University of Gothenburg', groups: ['isab'], bio: 'Leading expertise in empirical legal studies and the economics of crime.', website: 'https://www.gu.se/en/about/find-staff/annabindler' },
-//     { name: 'Susann Fiedler', surname: 'Fiedler', role: 'Professor of Business Psychology', email: 'susann.fiedler@wu.ac.at', affiliation: 'Vienna University of Economics', groups: ['isab'], bio: 'Prominent researcher in behavioral economics and psychology.', website: 'https://www.wu.ac.at/en/psyeco/team/susann-fiedler/' },
-//     { name: 'Barbara Havelková', surname: 'Havelková', role: 'Associate Professor of Law', email: 'barbara.havelkova@law.ox.ac.uk', affiliation: 'University of Oxford', groups: ['isab'], bio: 'Specialist in gender legal studies and equality law.', website: 'https://www.law.ox.ac.uk/people/barbara-havelkova' },
-//     { name: 'Elena Kantorowicz-Reznichenko', surname: 'Kantorowicz-Reznichenko', role: 'Professor of Quantitative Empirical Legal Studies', email: 'kantorowicz@law.eur.nl', affiliation: 'Erasmus University Rotterdam', groups: ['isab'], bio: 'Expert in economic analysis of law and criminal justice systems.', website: 'https://www.eur.nl/en/people/elena-kantorowicz-reznichenko' },
-//     { name: 'Keren Weinshall', surname: 'Weinshall', role: 'Professor of Law', email: 'keren.weinshall@mail.huji.ac.il', affiliation: 'Hebrew University of Jerusalem', groups: ['isab'], bio: 'Empirical researcher focusing on judicial decision-making.', website: 'https://en.law.huji.ac.il/people/keren-weinshall' }
-//   ],
-//   publications: [
-//     { 
-//       id: 'pub-algorithmic-support', 
-//       title: 'The Impact of Algorithmic Support on Judicial Decision Making', 
-//       authors: 'Montag, J., Šoltés, M.', 
-//       type: 'working-paper', 
-//       year: '2025', 
-//       abstract: 'This paper evaluates the rollout of the PRECID algorithmic support system among Czech judges. Using a difference-in-differences approach, we find that access to predictive sentencing guidelines reduces unwarranted disparities in sentencing outcomes by 14% without altering the overall severity of punishments.', 
-//       pdf: '#', 
-//       repo: 'https://ssrn.com' 
-//     },
-//     { 
-//       id: 'pub-sentencing-disparities', 
-//       title: 'Understanding Sentencing Disparities in the Digital Age', 
-//       authors: 'Šoltés, M., et al.', 
-//       type: 'journal-article', 
-//       year: '2025', 
-//       journal: 'Journal of Empirical Legal Studies', 
-//       abstract: 'In this study, we analyze the impact of digital transformation on judicial sentencing consistency.',
-//       pdf: '#',
-//       link: 'https://onlinelibrary.wiley.com'
-//     }
-//   ]
-// };
 
 const workPackages = [
   { id: 'WP1', title: 'Digital Public Sphere', leader: 'Volker Kaul', description: 'Examining how social media influence public discourse and contribute to societal polarization.' },
@@ -66,6 +23,23 @@ const futureGeneration = [
 
 const teamMembers = siteData.team || [];
 const publicationsData = siteData.publications || [];
+
+/**
+ * Robustly resolve asset paths.
+ * We hardcode the production base but allow local preview to work via relative paths.
+ */
+const getAssetUrl = (filename) => {
+  const isLocal = typeof window !== 'undefined' && 
+    (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+  
+  // Hardcoded production base for GitHub Pages
+  const prodBase = '/cios_website/';
+  const base = isLocal ? '/' : prodBase;
+
+  const normalizedBase = base.endsWith('/') ? base : base + '/';
+  const normalizedFile = filename.startsWith('/') ? filename.slice(1) : filename;
+  return `${normalizedBase}${normalizedFile}`;
+};
 
 // ==========================================
 // 2. WEBSITE COMPONENTS
@@ -193,8 +167,9 @@ export default function App() {
                       </span>
                       <span className="text-sm font-bold" style={{ color: colors.navy }}>{featuredPub.year}</span>
                     </div>
+                    {/* Scale down the title slightly: 3xl to 4xl is often more proportionate than 5xl */}
                     <h3 
-                      className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 leading-tight cursor-pointer hover:underline transition-colors w-full" 
+                      className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 leading-tight cursor-pointer hover:underline transition-colors w-full" 
                       style={{ color: colors.navy }}
                       onClick={() => handleNavClick('publications', featuredPub.id)}
                     >
@@ -354,7 +329,7 @@ export default function App() {
       <nav className="sticky top-0 z-50 bg-white shadow-sm h-32">
         <div className="max-w-6xl mx-auto px-6 sm:px-12 flex justify-between items-center h-full">
           <div className="cursor-pointer flex items-center h-full" onClick={() => handleNavClick('home')}>
-            <img src="/CIOS_Logo_Color.png" alt="CIOS Logo" className="h-24 object-contain" onError={e => e.target.style.display='none'} />
+            <img src={getAssetUrl('CIOS_Logo_Color.png')} alt="CIOS Logo" className="h-24 object-contain" onError={e => e.target.style.display='none'} />
           </div>
           <div className="flex h-full">
             {['home', 'people', 'publications', 'about'].map(tab => (
@@ -419,7 +394,13 @@ export default function App() {
             </div>
           </div>
           <div className="pt-12 border-t flex flex-col items-center" style={{ borderColor: colors.borderGray }}>
-            <img src="/CIOS_Logos_partners.png" className="max-h-20 w-auto mb-10" alt="CIOS Partners" onError={e => e.target.style.display='none'} />
+            <img 
+              src={getAssetUrl('CIOS_Logos_partners.png')} 
+              className="h-20 w-auto mb-10 object-contain" 
+              style={{ imageRendering: 'high-quality' }}
+              alt="CIOS Partners" 
+              onError={e => e.target.style.display='none'} 
+            />
             <p className="text-[11px] font-medium text-center max-w-3xl leading-relaxed" style={{ color: '#4A6582' }}>Co-funded by the European Regional Development Fund, project Center for Inequality and Open Society, no. CZ.02.01.01/00/23_025/0008690.</p>
           </div>
         </div>
