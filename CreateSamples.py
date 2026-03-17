@@ -1,0 +1,107 @@
+import pandas as pd
+import os
+
+# Create data directory if it doesn't exist
+os.makedirs('data', exist_ok=True)
+
+# 1. TEAM DATA (Fully Corrected: No Titles, All 16 People)
+team_data = [
+    {"name": "Josef Montag", "surname": "Montag", "role": "Principal Investigator", "email": "montagj@prf.cuni.cz", "affiliation": "Faculty of Law, Charles University", "groups": "management, research, admin", "bio": "Specializes in empirical legal studies and the economics of crime. Currently chairs the Economics Panel at the Czech Science Foundation.", "website": "https://josefmontag.github.io"},
+    {"name": "Michal Šoltés", "surname": "Šoltés", "role": "Work Package Leader", "email": "michal.soltes@prf.cuni.cz", "affiliation": "Faculty of Law, Charles University", "groups": "research", "bio": "Focuses on empirical criminal law and judicial decision-making. Researcher at IDEA (CERGE-EI).", "website": "https://michalsoltes.com"},
+    {"name": "Volker Kaul", "surname": "Kaul", "role": "Work Package Leader", "email": "volker.kaul@fsv.cuni.cz", "affiliation": "Faculty of Social Sciences", "groups": "research", "bio": "Researches political philosophy and the digital public sphere, with a focus on polarization and democracy.", "website": ""},
+    {"name": "Anna Malá", "surname": "Malá", "role": "Project Manager", "email": "mala@prf.cuni.cz", "affiliation": "Faculty of Law, Charles University", "groups": "management, admin", "bio": "Strategic project management and institutional coordination.", "website": ""},
+    {"name": "Eva Myšáková", "surname": "Myšáková", "role": "Financial Manager", "email": "mysakova@prf.cuni.cz", "affiliation": "Faculty of Law, Charles University", "groups": "management, admin", "bio": "Financial oversight, budgeting, and reporting for large-scale European research grants.", "website": ""},
+    {"name": "Kateřina Pospíchalová Pavlov", "surname": "Pospíchalová Pavlov", "role": "Administrator", "email": "pavlov@prf.cuni.cz", "affiliation": "Faculty of Law, Charles University", "groups": "management, admin", "bio": "Coordinates administrative support, logistics, and institutional communication for the CIOS project.", "website": ""},
+    {"name": "Karolína Martínek", "surname": "Martínek", "role": "Data Steward & Open Access Officer", "email": "martinek@prf.cuni.cz", "affiliation": "Faculty of Law, Charles University", "groups": "management, admin", "bio": "Responsible for data management planning and ensuring open access to research outputs.", "website": ""},
+    {"name": "Alice Dvořáková", "surname": "Dvořáková", "role": "Senior Researcher", "email": "alice.dvorakova@vse.cz", "affiliation": "Prague University of Economics and Business", "groups": "research", "bio": "Research interests include macroeconomic links between financial systems, technological innovation, and wealth distribution.", "website": ""},
+    {"name": "Petr Novák", "surname": "Novák", "role": "Junior Researcher", "email": "petr.novak@law.muni.cz", "affiliation": "Faculty of Law, Masaryk University", "groups": "research", "bio": "Focuses on consumer protection law and behavioral impacts in online digital marketplaces.", "website": ""},
+    {"name": "Sarah Jenkins", "surname": "Jenkins", "role": "Postdoctoral Researcher", "email": "jenkins.s@prf.cuni.cz", "affiliation": "Faculty of Law, Charles University", "groups": "research", "bio": "Applies natural language processing (NLP) to historical court records to identify systemic linguistic bias.", "website": ""},
+    {"name": "Tomáš Kučera", "surname": "Kučera", "role": "PhD Candidate", "email": "kucera.t@fsv.cuni.cz", "affiliation": "Faculty of Social Sciences", "groups": "research", "bio": "Investigating algorithmic bias and experimental nudges in social media feeds.", "website": ""},
+    {"name": "Anna Louisa Bindler", "surname": "Bindler", "role": "Professor of Economics", "email": "anna.bindler@gu.se", "affiliation": "University of Gothenburg", "groups": "isab", "bio": "Leading expertise in empirical legal studies and the economics of crime.", "website": "https://www.gu.se/en/about/find-staff/annabindler"},
+    {"name": "Susann Fiedler", "surname": "Fiedler", "role": "Professor of Business Psychology", "email": "susann.fiedler@wu.ac.at", "affiliation": "Vienna University of Economics", "groups": "isab", "bio": "Prominent researcher in behavioral economics and psychology.", "website": "https://www.wu.ac.at/en/psyeco/team/susann-fiedler/"},
+    {"name": "Barbara Havelková", "surname": "Havelková", "role": "Associate Professor of Law", "email": "barbara.havelkova@law.ox.ac.uk", "affiliation": "University of Oxford", "groups": "isab", "bio": "Specialist in gender legal studies, equality law, and comparative legal systems.", "website": "https://www.law.ox.ac.uk/people/barbara-havelkova"},
+    {"name": "Elena Kantorowicz-Reznichenko", "surname": "Kantorowicz-Reznichenko", "role": "Professor of Quantitative Empirical Legal Studies", "email": "kantorowicz@law.eur.nl", "affiliation": "Erasmus University", "groups": "isab", "bio": "Expert in the economic analysis of law and criminal justice systems.", "website": "https://www.eur.nl/en/people/elena-kantorowicz-reznichenko"},
+    {"name": "Keren Weinshall", "surname": "Weinshall", "role": "Professor of Law", "email": "keren.weinshall@mail.huji.ac.il", "affiliation": "Hebrew University", "groups": "isab", "bio": "Empirical researcher focusing on judicial decision-making and public law.", "website": "https://en.law.huji.ac.il/people/keren-weinshall"}
+]
+
+# 2. PUBLICATIONS DATA
+publications_data = [
+    {
+        "id": "pub-algorithmic-support", 
+        "title": "The Impact of Algorithmic Support on Judicial Decision Making", 
+        "authors": "Montag, J., Šoltés, M.", 
+        "type": "working-paper", 
+        "year": 2025, 
+        "journal": "",
+        "abstract": "This paper evaluates the rollout of the PRECID algorithmic support system among Czech judges. Using a difference-in-differences approach, we find that access to predictive sentencing guidelines reduces unwarranted disparities in sentencing outcomes by 14% without altering the overall severity of punishments. The findings suggest that data-driven tools can effectively guide human discretion in the criminal justice system.", 
+        "pdf": "#", 
+        "link": "",
+        "repo": "https://ssrn.com"
+    },
+    {
+        "id": "pub-sentencing-disparities", 
+        "title": "Understanding Sentencing Disparities in the Digital Age", 
+        "authors": "Šoltés, M., et al.", 
+        "type": "journal-article", 
+        "year": 2025, 
+        "journal": "Journal of Empirical Legal Studies", 
+        "abstract": "In this study, we analyze the impact of digital transformation on judicial sentencing consistency. By leveraging a longitudinal dataset of over 50,000 cases, we identify how information availability correlates with sentencing variance across different jurisdictions.", 
+        "pdf": "#", 
+        "link": "https://onlinelibrary.wiley.com",
+        "repo": ""
+    },
+    {
+        "id": "pub-digital-justice-chapter", 
+        "title": "Digital Governance and Rule of Law: A European Perspective", 
+        "authors": "Montag, J., Šoltés, M.", 
+        "type": "book-chapter", 
+        "year": 2025, 
+        "journal": "Oxford Handbook of Digital Justice", 
+        "abstract": "This chapter explores the evolving landscape of digital governance within the European Union. It examines how automated decision-making systems intersect with fundamental rights and the traditional rule of law frameworks, proposing a new regulatory paradigm for algorithmic accountability.", 
+        "pdf": "#", 
+        "link": "https://global.oup.com",
+        "repo": ""
+    },
+    {
+        "id": "pub-digital-public-sphere", 
+        "title": "Digital Public Sphere and Societal Polarization", 
+        "authors": "Kaul, V.", 
+        "type": "working-paper", 
+        "year": 2025, 
+        "journal": "",
+        "abstract": "We examine how algorithmically curated social media environments affect political polarization. Through a series of behavioral experiments, we demonstrate that exposure to opposing viewpoints in a highly digitized public sphere often backfires, increasing affective polarization rather than mitigating it.", 
+        "pdf": "#", 
+        "link": "",
+        "repo": "https://repec.org"
+    },
+    {
+        "id": "pub-nlp-courts", 
+        "title": "Mapping Bias: NLP Applications in Historic Case Law", 
+        "authors": "Jenkins, S., Montag, J.", 
+        "type": "journal-article", 
+        "year": 2026, 
+        "journal": "Law & Policy", 
+        "abstract": "Applying machine learning to a century of appellate court records, we map the evolution of linguistic bias in sentencing rationales, demonstrating a persistent but shifting disparity in demographic treatment based on geographic jurisdiction.", 
+        "pdf": "#", 
+        "link": "#",
+        "repo": ""
+    },
+    {
+        "id": "pub-echo-chambers", 
+        "title": "Escaping the Echo Chamber: Experimental Evidence from Social Media", 
+        "authors": "Kaul, V., Kučera, T.", 
+        "type": "working-paper", 
+        "year": 2026, 
+        "journal": "", 
+        "abstract": "Through a randomized controlled trial involving 2,000 users, we test whether algorithmic nudges out of political echo chambers reduce or exacerbate affective polarization. We find that brief exposure to counter-narratives decreases polarization, but sustained exposure triggers a backfire effect.", 
+        "pdf": "#", 
+        "link": "",
+        "repo": "https://ssrn.com"
+    }
+]
+
+# Export to Excel
+pd.DataFrame(team_data).to_excel('data/team.xlsx', index=False)
+pd.DataFrame(publications_data).to_excel('data/publications.xlsx', index=False)
+
+print("Successfully created clean 'data/team.xlsx' and 'data/publications.xlsx'.")
